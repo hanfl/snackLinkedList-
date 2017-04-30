@@ -1,0 +1,40 @@
+
+void move_snake()
+{
+    no_reverse();
+    node *p, *t = NULL;
+    node *newh = NULL;
+    newh = (node *)malloc(sizeof(node));
+    newh->cor = head->cor;
+    newh->next = head;
+    head = newh;
+    int grow = 0;
+    switch (cur_dir) {
+    case VK_UP:
+        head->cor.Y--;
+        break;
+    case VK_DOWN:
+        head->cor.Y++;
+        break;
+    case VK_LEFT:
+        head->cor.X--;
+        break;
+    case VK_RIGHT:
+        head->cor.X++;
+        break;
+    }
+    if (cor_cmp(head->cor, food)) {
+        grow = 1;
+        food = generate_food();
+    }
+    if (grow) {
+        len++;
+    }
+    else {
+        for (p = head; p->next->next != NULL; p = p->next)
+            ;
+        t = p->next;
+        p->next = NULL;
+        free(t);
+    }
+}
